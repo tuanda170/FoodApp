@@ -1,70 +1,76 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import Auth from '../../components/Auth';
+import FoodMenu from '../../components/FoodMenu';
+import Profile from '../../components/Profile';
+import PaymentScreen from '../../components/Payment';
+import HistoryScreen from '../../components/History';
+import AdminScreen from '../../components/Admin/AdminScreen';
+import UserInfo from '../../components/UserInfo';
+import AdminProfile from '../../components/Admin/AdminProfile';
+import UpdateAccount from '../../components/UpdateAccount';
+import TrackSale from '../../components/Admin/TrackSale';
+import AdminEditUser from '../../components/Admin/AdminEditUser';
+import ReviewScreen from '../../components/OrderDetails/ReviewScreen';
+import CookingScreen from '../../components/OrderDetails/CookingScreen';
+import DeliveryScreen from '../../components/OrderDetails/DeliveryScreen';
+import OrderDetails from '../../components/OrderDetails/OrderDetails';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+// Hàm tạo Bottom Tab Navigator
+function HomeTabs() { 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+       
+          let iconName: 'restaurant' | 'person' = 'restaurant'; // Xác định biểu tượng dựa trên tên route
+
+          if (route.name === 'FoodMenu') {
+            iconName = 'restaurant';
+          } else if (route.name === 'Profile') {
+            iconName = 'person';
+          }
+          // Trả về biểu tượng phù hợp
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+    >   
+      <Tab.Screen name="FoodMenu" component={FoodMenu} />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+
+// Component chính của ứng dụng
+export default function App() {
+  return (
+    <Stack.Navigator initialRouteName="Auth">
+      
+      <Stack.Screen name="Auth" component={Auth} options={{ headerShown: false }} />
+      <Stack.Screen name="Home" component={HomeTabs} options={{ headerShown: false }} />
+      <Stack.Screen name="Payment" component={PaymentScreen} />
+      <Stack.Screen name="History" component={HistoryScreen} />
+      <Stack.Screen name="AdminScreen" component={AdminScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="UserInfo" component={UserInfo} />
+      <Stack.Screen name="AdminProfile" component={AdminProfile} />
+      <Stack.Screen name="UpdateAccount" component={UpdateAccount} />
+      <Stack.Screen name="TrackSale" component={TrackSale} />
+      <Stack.Screen name="AdminEditUser" component={AdminEditUser} />
+      <Stack.Screen name="ReviewScreen" component={ReviewScreen} />
+      <Stack.Screen name="CookingScreen" component={CookingScreen} />
+      <Stack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <Stack.Screen name="OrderDetails" component={OrderDetails} />
+
+    </Stack.Navigator>
+
+
+  );
+}
