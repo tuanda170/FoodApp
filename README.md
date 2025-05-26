@@ -2,6 +2,15 @@
 # FoodApp
 =======
 # Welcome to your Expo app 👋
+# Đây là ứng dụng FoodOrdering
+
+một số hình ảnh sơ qua của ứng dụng !!
+![Mô tả ảnh](https://github.com/username/repo-name/blob/main/images/Picture1.png?raw=true)
+![Mô tả ảnh](https://github.com/username/repo-name/blob/main/images/Picture2.png?raw=true)
+
+
+
+
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
